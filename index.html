@@ -9,6 +9,10 @@
 
         .container {
             position: relative;
+            width: 617px;
+            height: 910px;
+            left: 0;
+            right: 0;
         }
 
         img {
@@ -47,16 +51,27 @@ function randomize() {
     }
 }
 
+function transform() {
+    const containerElem = document.getElementById("container");
+    const date = new Date();
+    const time = date.getTime();
+    const timeFrac = time / 1000;
+    const scale = 0.95 + 0.05 * (timeFrac % 2 < 1 ? timeFrac % 2 : 2 - (timeFrac % 2));
+    containerElem.style.transform = `scale(1, ${scale})`;
+    requestAnimationFrame(transform);
+}
+
 window.addEventListener("load", () => {
     randomize();
     const button = document.getElementById("randomize");
     if(button) button.addEventListener("click", randomize);
+    requestAnimationFrame(transform);
 });
     </script>
 </head>
 <body>
     <button id="randomize">Randomize</button>
-    <div class="container">
+    <div id="container" class="container">
         <img id="base" src="assets/base.png">
         <img id="base-skin2" src="assets/base-skin2.png">
         <img id="base-skin3" src="assets/base-skin3.png">
