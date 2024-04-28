@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
@@ -24,8 +25,19 @@ export default function Home() {
   </AptosWalletAdapterProvider>);
 };
 
+function itoa(i: number) {
+  return String.fromCharCode(i + 'a'.charCodeAt(0));
+}
+
 function App() {
-  let gene = "abc";
+  const [gene, setGene] = useState("abc");
+
+  function randomize() {
+    let randomChar = () => itoa(Math.floor(Math.random() * 3));
+    setGene(`${randomChar()}${randomChar()}${randomChar()}`);
+    console.log(`randomized gene: ${gene}`);
+  }
+
   return (
     <>
       <Head>
@@ -36,6 +48,7 @@ function App() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <WalletSelector />
+        <button onClick={randomize}>Randomize</button>
         <Creature gene={gene}/>
       </main>
     </>

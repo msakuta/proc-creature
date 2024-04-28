@@ -1,5 +1,9 @@
 
-export default function Hello(props) {
+export interface Props {
+    gene: string,
+}
+
+export default function Hello(props: Props) {
     const { gene } = props;
     let base;
     switch (gene[0]) {
@@ -13,14 +17,19 @@ export default function Hello(props) {
         case 'b': head = <img src="assets/horns.png" />; break;
         case 'c': default: head = <></>; break;
     }
+    let body;
+    switch (gene[2]) {
+        case 'a': body = <img id="shirt" src="assets/shirt.png" />; break;
+        case 'b': body = <img id="armor" src="assets/armor.png" />; break;
+        case 'c': default: body = <></>; break;
+    }
     return (
     <>
         <label><input type="checkbox" id="animate" checked />Animate</label>
         <div className="container">
             {base}
             {head}
-            <img id="shirt" src="assets/shirt.png" />
-            <img id="armor" src="assets/armor.png" />
+            {body}
         </div>
     </>);
 }
