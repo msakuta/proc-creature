@@ -22,6 +22,11 @@ module proc_creature::creature {
         });
     }
 
+    public entry fun set_gene(gene: String) acquires Creature {
+        let c = borrow_global_mut<Creature>(MODULE_OWNER);
+        c.gene = gene;
+    }
+
     #[view]
     public fun get_gene(): String acquires Creature {
         let c = borrow_global<Creature>(MODULE_OWNER);
