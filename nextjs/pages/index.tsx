@@ -9,9 +9,9 @@ import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 import { ThemeConfig } from 'antd';
 import { PetraWallet } from "petra-plugin-wallet-adapter";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
-import { aptosClient } from "./aptosClient";
+import { aptosClient } from "../lib/aptosClient";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import Creature from "./Creature";
+import Creature from "../components/Creature";
 
 const inter = Inter({ subsets: ["latin"] });
 
