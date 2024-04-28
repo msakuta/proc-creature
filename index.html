@@ -51,7 +51,10 @@ function randomize() {
     }
 }
 
+let enableAnimation = true;
+
 function transform() {
+    if(!enableAnimation) return;
     const containerElem = document.getElementById("container");
     const date = new Date();
     const time = date.getTime();
@@ -65,12 +68,18 @@ window.addEventListener("load", () => {
     randomize();
     const button = document.getElementById("randomize");
     if(button) button.addEventListener("click", randomize);
+    const animate = document.getElementById("animate");
+    if(animate) animate.addEventListener("click", evt => {
+        enableAnimation = evt.target.checked;
+        if(enableAnimation) requestAnimationFrame(transform);
+    })
     requestAnimationFrame(transform);
 });
     </script>
 </head>
 <body>
     <button id="randomize">Randomize</button>
+    <label><input type="checkbox" id="animate" checked>Animate</label>
     <div id="container" class="container">
         <img id="base" src="assets/base.png">
         <img id="base-skin2" src="assets/base-skin2.png">
