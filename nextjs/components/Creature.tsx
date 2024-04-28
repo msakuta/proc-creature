@@ -1,10 +1,12 @@
 
 export interface Props {
     gene: string,
+    animated: boolean,
+    setAnimated: (_: boolean) => void,
 }
 
 export default function Creature(props: Props) {
-    const { gene } = props;
+    const { gene, animated, setAnimated } = props;
     let base;
     switch (gene[0]) {
         case 'a': base = <img src="assets/base.png" />; break;
@@ -25,7 +27,7 @@ export default function Creature(props: Props) {
     }
     return (
     <>
-        <label><input type="checkbox" id="animate" checked />Animate</label>
+        <label><input type="checkbox" id="animate" checked={animated} onChange={() => setAnimated(!animated)}/>Animate</label>
         <div className="container">
             {base}
             {head}

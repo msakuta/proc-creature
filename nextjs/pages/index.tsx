@@ -37,6 +37,7 @@ function itoa(i: number) {
 function App() {
   const { signAndSubmitTransaction } = useWallet();
   const [gene, setGene] = useState("abc");
+  const [animated, setAnimated] = useState(false);
   const [fetched, setFetched] = useState(false); // state just to keep track of whether gene is fetched asynchronously
 
   useEffect(() => {
@@ -49,22 +50,22 @@ function App() {
             functionArguments: [],
           }
         });
-        console.log(`Aptos view returned gene: ${gotGene}`);
-        setGene(gotGene as unknown as string);
+        console.log(`Aptos view returned gene for the creature: ${gotGene[0]}`);
+        setGene(gotGene[0] as unknown as string);
       })();
     }
   }, []);
 
   function randomize() {
     let randomChar = () => itoa(Math.floor(Math.random() * 3));
-    setGene(`${randomChar()}${randomChar()}${randomChar()}`);
-    console.log(`randomized gene: ${gene}`);
+    const nextGene = `${randomChar()}${randomChar()}${randomChar()}`;
+    setGene(nextGene);
+    console.log(`randomized gene: ${nextGene}`);
 
     (async () => {
-      console.log(`sending transaction of new gene: ${gene}`);
       const data: InputEntryFunctionData = {
         function: `${CONTRACT_ADDRESS}::creature::set_gene`,
-        functionArguments: [gene],
+        functionArguments: [nextGene],
       };
       const payload = {
         data,
@@ -89,7 +90,7 @@ function App() {
       </div>
       <main  className={`${styles.main} ${inter.className}`}>
         <button onClick={randomize}>Randomize</button>
-        <Creature gene={gene}/>
+        <Creature gene={gene} animated={animated} setAnimated={setAnimated}/>
       </main>
     </>
   );
