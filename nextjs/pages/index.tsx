@@ -12,22 +12,16 @@ import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { aptosClient } from "../lib/aptosClient";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Creature from "../components/Creature";
+import WalletProvider from "../components/WalletProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const wallets = [
-  new PetraWallet()
-]
-
 const CONTRACT_ADDRESS: string = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "";
 
-const antThemeConfig: ThemeConfig = {
-}
-
 export default function Home() {
-  return (<AptosWalletAdapterProvider plugins={wallets} autoConnect={true}>
+  return (<WalletProvider>
     <App />
-  </AptosWalletAdapterProvider>);
+  </WalletProvider>);
 };
 
 function itoa(i: number) {

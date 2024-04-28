@@ -6,7 +6,7 @@ import { PropsWithChildren } from "react";
 
 const wallets = [new PetraWallet()];
 
-export function WalletProvider({ children }: PropsWithChildren) {
+export default function WalletProvider({ children }: PropsWithChildren) {
   return (
     <AptosWalletAdapterProvider plugins={wallets} autoConnect={true}>
       {children}
