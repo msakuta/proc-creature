@@ -1,0 +1,69 @@
+<html>
+<head>
+    <title>Proc creature</title>
+    <style type="text/css">
+        body {
+            text-align: center;
+            width: 80%;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        img {
+            position: absolute;
+        }
+    </style>
+    <script>
+function randomize() {
+    const baseImg = document.getElementById("base");
+    const base2Img = document.getElementById("base-skin2");
+    const base3Img = document.getElementById("base-skin3");
+    const capImg = document.getElementById("cap");
+    const hornsImg = document.getElementById("horns");
+    const shirtImg = document.getElementById("shirt");
+    const armorImg = document.getElementById("armor");
+
+    const skinImgs = [baseImg, base2Img, base3Img];
+    const skin = Math.floor(Math.random() * 3);
+    for(let i = 0; i < skinImgs.length; i++) {
+        const img = skinImgs[i];
+        img.style.display = skin === i ? "inline" : "none";
+    }
+
+    const headImgs = [capImg, hornsImg];
+    const head = Math.floor(Math.random() * 3);
+    for(let i = 0; i < headImgs.length; i++) {
+        const img = headImgs[i];
+        img.style.display = head === i ? "inline" : "none";
+    }
+
+    const bodyImgs = [shirtImg, armorImg];
+    const body = Math.floor(Math.random() * 3);
+    for(let i = 0; i < bodyImgs.length; i++) {
+        const img = bodyImgs[i];
+        img.style.display = body === i ? "inline" : "none";
+    }
+}
+
+window.addEventListener("load", () => {
+    randomize();
+    const button = document.getElementById("randomize");
+    if(button) button.addEventListener("click", randomize);
+});
+    </script>
+</head>
+<body>
+    <button id="randomize">Randomize</button>
+    <div class="container">
+        <img id="base" src="assets/base.png">
+        <img id="base-skin2" src="assets/base-skin2.png">
+        <img id="base-skin3" src="assets/base-skin3.png">
+        <img id="cap" src="assets/cap.png">
+        <img id="horns" src="assets/horns.png">
+        <img id="shirt" src="assets/shirt.png">
+        <img id="armor" src="assets/armor.png">
+    </div>
+</body>
+</html>
