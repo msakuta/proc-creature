@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
+import { InputEntryFunctionData } from "@aptos-labs/ts-sdk";
 import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 import { ThemeConfig } from 'antd';
 import { PetraWallet } from "petra-plugin-wallet-adapter";
@@ -19,7 +20,6 @@ const wallets = [
 ]
 
 const CONTRACT_ADDRESS: string = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "";
-console.log(`process.env: ${typeof process.env}, ${process.env.length} CONTRACT_ADDRESS: ${Object.keys(process.env)}`);
 
 const antThemeConfig: ThemeConfig = {
 }
@@ -62,11 +62,12 @@ function App() {
 
     (async () => {
       console.log(`sending transaction of new gene: ${gene}`);
+      const data: InputEntryFunctionData = {
+        function: `${CONTRACT_ADDRESS}::creature::set_gene`,
+        functionArguments: [gene],
+      };
       const payload = {
-        data: {
-          function: `${CONTRACT_ADDRESS}::creature::set_gene`,
-          functionArguments: [gene],
-        },
+        data,
       };
       const pendingTxn = await signAndSubmitTransaction(payload);
       const response = await aptosClient.waitForTransaction({ transactionHash: pendingTxn.hash });
