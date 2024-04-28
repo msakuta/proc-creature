@@ -1,6 +1,6 @@
+'use client'
 import Head from "next/head";
-import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
@@ -8,6 +8,7 @@ import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 import { ThemeConfig } from 'antd';
 import { PetraWallet } from "petra-plugin-wallet-adapter";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
+import { aptosClient } from "./aptosClient";
 import Creature from "./Creature";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,6 +16,9 @@ const inter = Inter({ subsets: ["latin"] });
 const wallets = [
   new PetraWallet()
 ]
+
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+console.log(`process.env: ${typeof process.env}, ${process.env.length} CONTRACT_ADDRESS: ${Object.keys(process.env)}`);
 
 const antThemeConfig: ThemeConfig = {
 }
@@ -30,7 +34,25 @@ function itoa(i: number) {
 }
 
 function App() {
+  // const { signAndSubmitTransaction, account } = useWallet();
   const [gene, setGene] = useState("abc");
+  const [fetched, setFetched] = useState(false); // state just to keep track of whether gene is fetched asynchronously
+
+  useEffect(() => {
+    if(!fetched){
+      setFetched(true);
+      (async () => {
+        const gotGene = await aptosClient.view({
+          payload: {
+            function: `${CONTRACT_ADDRESS}::creature::get_gene`,
+            functionArguments: [],
+          }
+        });
+        console.log(`Aptos view returned gene: ${gotGene}`);
+        setGene(gotGene as unknown as string);
+      })();
+    }
+  }, []);
 
   function randomize() {
     let randomChar = () => itoa(Math.floor(Math.random() * 3));

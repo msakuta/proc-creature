@@ -3,7 +3,7 @@ export interface Props {
     gene: string,
 }
 
-export default function Hello(props: Props) {
+export default function Creature(props: Props) {
     const { gene } = props;
     let base;
     switch (gene[0]) {

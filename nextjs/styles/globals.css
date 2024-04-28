@@ -93,6 +93,20 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  width: 617px;
+  height: 910px;
+  left: 0;
+  right: 0;
+}
+
+img {
+  position: absolute;
+  margin-left: -50%;
 }
 
 a {
