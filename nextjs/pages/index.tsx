@@ -9,6 +9,7 @@ import { ThemeConfig } from 'antd';
 import { PetraWallet } from "petra-plugin-wallet-adapter";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { aptosClient } from "./aptosClient";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Creature from "./Creature";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,7 +18,7 @@ const wallets = [
   new PetraWallet()
 ]
 
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+const CONTRACT_ADDRESS: string = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "";
 console.log(`process.env: ${typeof process.env}, ${process.env.length} CONTRACT_ADDRESS: ${Object.keys(process.env)}`);
 
 const antThemeConfig: ThemeConfig = {
@@ -34,7 +35,7 @@ function itoa(i: number) {
 }
 
 function App() {
-  // const { signAndSubmitTransaction, account } = useWallet();
+  const { signAndSubmitTransaction } = useWallet();
   const [gene, setGene] = useState("abc");
   const [fetched, setFetched] = useState(false); // state just to keep track of whether gene is fetched asynchronously
 
@@ -58,6 +59,19 @@ function App() {
     let randomChar = () => itoa(Math.floor(Math.random() * 3));
     setGene(`${randomChar()}${randomChar()}${randomChar()}`);
     console.log(`randomized gene: ${gene}`);
+
+    (async () => {
+      console.log(`sending transaction of new gene: ${gene}`);
+      const payload = {
+        data: {
+          function: `${CONTRACT_ADDRESS}::creature::set_gene`,
+          functionArguments: [gene],
+        },
+      };
+      const pendingTxn = await signAndSubmitTransaction(payload);
+      const response = await aptosClient.waitForTransaction({ transactionHash: pendingTxn.hash });
+      console.log(`Committed transaction: ${response.hash}`);
+    })();
   }
 
   return (
@@ -68,8 +82,11 @@ function App() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <div>
+        <span className="title">Generative Creature</span>
         <WalletSelector />
+      </div>
+      <main  className={`${styles.main} ${inter.className}`}>
         <button onClick={randomize}>Randomize</button>
         <Creature gene={gene}/>
       </main>

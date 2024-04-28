@@ -104,6 +104,11 @@ body {
   right: 0;
 }
 
+.title {
+  font-size: 20px;
+  margin: 12px;
+}
+
 img {
   position: absolute;
   margin-left: -50%;
