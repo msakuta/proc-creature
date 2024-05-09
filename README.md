@@ -12,6 +12,9 @@ The goal of the project is to make a trading game market to exchange the genes a
 
 Currently, it works on devnet.
 
+It renders with overlapped PNG images, which is very easy to port to any platform.
+In this project I make it in plain HTML and JavaScript to make PoC.
+
 
 ## Files
 
@@ -20,3 +23,11 @@ Currently, it works on devnet.
 * `nextjs` - a folder containing Next.js project that actually uses blockchain to store the genes.
 * `assets` - a folder containing common image assets.
 * `scripts` - a folder with utility scripts, such as creating account, minting and transferring.
+
+## TODOs
+
+* [ ] Add animation to each parts of the creature to make it more lively.
+* [ ] Add more variety to the genes so that having rare feature set is valuable.
+* [ ] Move smart contract gene payload to a NFT
+* [ ] Make a trading marketplace to exchange creatures
+* [ ] Mixing genes and generations
