@@ -1,5 +1,7 @@
-import { Account } from "@aptos-labs/ts-sdk";
+import { Account, NetworkToNetworkName, Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
 import { promises as fsPromises } from 'node:fs';
+
+const ACCOUNT_INITIAL_BALANCE = 100_000_000;
 
 async function main() {
     const account = Account.generate();
@@ -17,6 +19,10 @@ async function main() {
     faucet_url: "https://faucet.devnet.aptoslabs.com"
 `);
     }
+
+    const APTOS_NETWORK: Network = NetworkToNetworkName[process.env.APTOS_NETWORK || ""] || Network.DEVNET;
+    const config = new AptosConfig({ network: APTOS_NETWORK });
+    const aptosClient = new Aptos(config);
 
     await printAccount("default", account);
 
